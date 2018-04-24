@@ -26,15 +26,20 @@ namespace LogUsers
 
             ILog logger2 = new AsyncLog();
 
-            for (int i = 50; i > 0; i--)
+            for (int i = 5000; i > 0; i--)
             {
                 logger2.Write("Number with No flush: " + i.ToString());
-                Thread.Sleep(20);
+
             }
 
             logger2.StopWithoutFlush();
 
             Console.ReadLine();
+
+			Console.WriteLine("Day Change: " + (new Tests ()).TestDayChange ());
+			Console.WriteLine("Line Logged: " + (new Tests ()).TestCallToWrite ());
+			Console.WriteLine("Stop With Flush: " + (new Tests ()).TestStopWithFlush ());
+			Console.WriteLine("Stop Without Flush (test not deterministic!): " + (new Tests ()).TestStopWithoutFlush ());
         }
     }
 }

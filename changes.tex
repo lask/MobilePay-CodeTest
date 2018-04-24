@@ -1,0 +1,44 @@
+\documentclass{article}
+\title{Log Task - Change Description}
+\begin{document}
+\maketitle
+\subsection*{\texttt{AsyncLog} class}
+The following has changed in the \texttt{AsyncLog} class:
+\begin{itemize}
+\item Now uses a queue rather than a list as its internal buffer.
+  \begin{itemize}
+  \item The queue used is thread safe to make sure that multiple threads can use it without running into issues.
+  \end{itemize}
+\item The code has been refactored to have less code duplication and tasks are delegated to smaller methods.
+\item The logger is programmed more defensively now to catch possible run-time exceptions.
+\item Comments and a bit of documentation have been added.
+\item The logger will stop buffering lines in the queue (i.e., when the write method is called it will not add them to the queue) when the logger has been asked to stop and flush. The logger stops when the queue is empty.
+\item The logger creates one file per day. It only appends the header the first time it is opened.
+\item The writer is closed when the logger stops.
+\item Logger construction does not end until main loop has writer lock (to prevent logger to write to a closed writer.).
+\end{itemize}
+
+\subsection*{\texttt{AsyncLog} class}
+\begin{itemize}
+\item A minimum of tests has been created
+  \begin{itemize}
+  \item A test for each of the requested features. (note: I am not sure how to test the immediate stop with unit tests. If one could actually take control of the scheduler, then one could make a deterministic test based on some scheduling. To my knowledge this is not possible which makes it impossible to make a unit test as such.)
+  \item The tests are called from Program.cs    
+  \end{itemize}
+\item Introduced interface and class to get control over DateTime (that is introduced test stub).
+\end{itemize}
+
+\subsection*{Other comments}
+More things that could have been done in the project.
+\begin{itemize}
+\item I would have liked to write more unit tests for the smaller methods in AsyncLog to install more confidence in their correctness. I did, however, not get a unit test framework to work on my linux computer.
+\item Check the docs to make sure all run-time exceptions will be caught (one could make a temporary hack by simply catching all exceptions).
+\item The specification was vague, so the implementation could change in a number of ways depending on actual needs:
+  \begin{itemize}
+  \item If the logger is used by multiple threads, and it is somewhat important to not through away log entries, then one could make the write method make sure that the line is written to the internal queue buffer.
+  \item The logger yields often to not slow down the main application. One could allow the logger to be more active (for instance by letting it write multiple entries before it yields. This could be done in the style of the original project with a counter that keeps track of the amount of lines written. When the limit is reached, the counter is reset and the logger yields).
+  \item The logger could allow for the user to actually pick the directory for logging.
+  \end{itemize}
+\item The documentation could be more thorough and utilise the available markup better.
+\end{itemize}
+\end{document}

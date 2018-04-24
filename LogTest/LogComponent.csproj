@@ -44,6 +44,10 @@
     <Compile Include="ILog.cs" />
     <Compile Include="LogLine.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="IDateProvider.cs" />
+    <Compile Include="DateProvider.cs" />
+    <Compile Include="TestClasses\TestDateProvider.cs" />
+    <Compile Include="TestClasses\Tests.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
